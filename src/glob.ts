@@ -15,8 +15,7 @@ program.version(packageJson.version);
 
 program
     .requiredOption("-i, --ids-location <location>", "glob pattern of id files")
-    .requiredOption("-o, --output <output>", "Output directory")
-    .option("-f, --file", "Filename to output", "master.json");
+    .requiredOption("-o, --output <output>", "Output file");
 
 program.parse(process.argv);
 
@@ -47,7 +46,7 @@ function globTestIds() {
                 {} as Record<string, string>
             );
 
-        fs.mkdirpSync(path.join(process.cwd(), program.output));
+        fs.mkdirpSync(path.dirname(program.output));
 
         const outFile = path.join(process.cwd(), program.output, program.file);
 
