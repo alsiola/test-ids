@@ -1,0 +1,34 @@
+{
+  "name": "babel-plugin-jsx-test-ids",
+  "version": "0.0.2",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alsiola/jsx-test-ids.git"
+  },
+  "author": "Alex Young",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alsiola/jsx-test-ids/issues"
+  },
+  "homepage": "https://github.com/alsiola/jsx-test-ids#readme",
+  "dependencies": {
+    "fs-extra": "^8.1.0"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7",
+    "@babel/plugin-transform-react-jsx": "^7"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.1.3",
+    "@types/fs-extra": "^8.0.1",
+    "@types/node": "^12.12.6",
+    "typescript": "^3.7.2"
+  }
+}
