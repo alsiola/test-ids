@@ -48,7 +48,7 @@ function globTestIds() {
 
         fs.mkdirpSync(path.dirname(program.output));
 
-        const outFile = path.join(process.cwd(), program.output, program.file);
+        const outFile = path.join(process.cwd(), program.output);
 
         fs.writeFileSync(outFile, JSON.stringify(allIds, null, 2));
         console.log(
