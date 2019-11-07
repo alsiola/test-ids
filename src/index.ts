@@ -1,21 +1,24 @@
 import * as babel from "@babel/core";
 import * as fs from "fs-extra";
-import * as p from "path";
+import * as path from "path";
 
 const generateOutputFilename = (
     extractTo: string,
     filename: string = "test.jsx"
 ) => {
-    const basename = p.basename(filename, p.extname(filename));
+    const basename = path.basename(filename, path.extname(filename));
 
     // Make sure the relative path is "absolute" before
     // joining it with the `messagesDir`.
-    let relativePath = p.join(p.sep, p.relative(process.cwd(), filename));
+    let relativePath = path.join(
+        path.sep,
+        path.relative(process.cwd(), filename)
+    );
     // Solve when the window user has symlink on the directory, because
     // process.cwd on windows returns the symlink root,
     // and filename (from babel) returns the original root
     if (process.platform === "win32") {
-        const { name } = p.parse(process.cwd());
+        const { name } = path.parse(process.cwd());
         if (relativePath.includes(name)) {
             relativePath = relativePath.slice(
                 relativePath.indexOf(name) + name.length
@@ -23,7 +26,7 @@ const generateOutputFilename = (
         }
     }
 
-    return p.join(extractTo, p.dirname(relativePath), basename + ".json");
+    return path.join(extractTo, path.dirname(relativePath), basename + ".json");
 };
 
 const TEST_IDS = Symbol("TEST_IDS");
@@ -145,7 +148,7 @@ const plugin = function(
 
                 const idFileName = generateOutputFilename(extractTo, filename);
 
-                fs.mkdirpSync(p.dirname(idFileName));
+                fs.mkdirpSync(path.dirname(idFileName));
                 fs.writeFileSync(idFileName, output);
             }
         }
