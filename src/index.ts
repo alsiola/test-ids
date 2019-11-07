@@ -4,20 +4,6 @@ import * as p from "path";
 
 type BabelTypes = typeof babel.types;
 
-const replaceWithStringLiteralAttribute = (
-    path: babel.NodePath,
-    t: BabelTypes,
-    jsxAttribute: string,
-    str: string
-) => {
-    path.replaceWith(
-        t.jsxAttribute(
-            t.jsxIdentifier(jsxAttribute),
-            t.jsxExpressionContainer(t.stringLiteral(str))
-        )
-    );
-};
-
 const generateOutputFilename = (
     extractTo: string,
     filename: string = "test.jsx"
@@ -44,6 +30,9 @@ const generateOutputFilename = (
 
 const TEST_IDS = Symbol("TEST_IDS");
 
+const DEFAULT_MAGIC_OBJECT = "$TestId";
+const DEFAULT_JSX_ATTRIBUTE = "data-testid";
+
 export interface PluginProps {
     jsxAttribute?: string;
     extractTo?: string;
@@ -69,10 +58,36 @@ const plugin = function(
             }
         },
         visitor: {
+            Property(path, state) {
+                const { magicObject = DEFAULT_MAGIC_OBJECT } = this.opts;
+
+                if (
+                    t.isMemberExpression(path.node.value) &&
+                    t.isIdentifier(path.node.value.object) &&
+                    path.node.value.object.name === magicObject &&
+                    t.isIdentifier(path.node.value.property)
+                ) {
+                    // The testid is the name of that property
+                    const testId = path.node.value.property.name;
+
+                    // Get existing ids, and as long as there's no dupe, add this one
+                    const ids: Set<string> = state.file.get(TEST_IDS);
+                    if (ids.has(testId)) {
+                        throw path.buildCodeFrameError(
+                            `Duplicate test id: ${testId}}`
+                        );
+                    }
+                    ids.add(testId);
+
+                    const value = path.get("value");
+
+                    value.replaceWith(t.stringLiteral(testId));
+                }
+            },
             JSXAttribute(path, state) {
                 const {
-                    jsxAttribute = "data-testid",
-                    magicObject = "TestId"
+                    jsxAttribute = DEFAULT_JSX_ATTRIBUTE,
+                    magicObject = DEFAULT_MAGIC_OBJECT
                 } = this.opts;
 
                 if (
@@ -102,11 +117,11 @@ const plugin = function(
                     ids.add(testId);
 
                     // Replace the whole attribute node with a string literal attribute value
-                    replaceWithStringLiteralAttribute(
-                        path,
-                        t,
-                        jsxAttribute,
-                        testId
+                    path.replaceWith(
+                        t.jsxAttribute(
+                            t.jsxIdentifier(jsxAttribute),
+                            t.jsxExpressionContainer(t.stringLiteral(testId))
+                        )
                     );
                 }
             }
@@ -126,15 +141,14 @@ const plugin = function(
             const foundKeys = ids.size;
 
             if (foundKeys > 0) {
+                const output = JSON.stringify([...ids.values()], null, 2);
+
                 const { filename } = file.opts;
 
                 const idFileName = generateOutputFilename(extractTo, filename);
 
                 fs.mkdirpSync(p.dirname(idFileName));
-                fs.writeFileSync(
-                    idFileName,
-                    JSON.stringify([...ids.values()], null, 2)
-                );
+                fs.writeFileSync(idFileName, output);
             }
         }
     };
