@@ -2,8 +2,6 @@ import * as babel from "@babel/core";
 import * as fs from "fs-extra";
 import * as p from "path";
 
-type BabelTypes = typeof babel.types;
-
 const generateOutputFilename = (
     extractTo: string,
     filename: string = "test.jsx"
