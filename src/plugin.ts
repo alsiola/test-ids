@@ -1,5 +1,5 @@
 import * as babel from "@babel/core";
-import * as fs from "fs-extra";
+import * as fsextra from "fs-extra";
 import * as path from "path";
 
 const generateOutputFilename = (
@@ -36,10 +36,11 @@ const DEFAULT_MAGIC_OBJECT = "$TestId";
 export interface PluginOpts {
     extractTo?: string;
     magicObject?: string;
+    fs?: Pick<typeof fsextra, "mkdirpSync" | "writeFileSync">; // Here sp we can inject a mock in tests
 }
 
 export function plugin(
-    this: { opts?: PluginOpts },
+    this: { opts: PluginOpts },
     {
         types: t
     }: {
@@ -102,7 +103,9 @@ export function plugin(
          * location of the file, but relative the the `testIdsDir`
          */
         post(file) {
-            const { extractTo } = this.opts || { extractTo: false };
+            const { extractTo, fs = fsextra } = this.opts || {
+                extractTo: false
+            };
             if (!extractTo) {
                 return;
             }

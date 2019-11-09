@@ -48,3 +48,15 @@ exports[`plugin throws if naked magicObject is used as auto property 1`] = `
 [0m [90m 4 | [39m            }[0m
 [0m [90m 5 | [39m        [0m"
 `;
+
+exports[`plugin writes found testIds 1`] = `
+Array [
+  Array [
+    "test/test.json",
+    "[
+  \\"Hello\\",
+  \\"GoodBye\\"
+]",
+  ],
+]
+`;

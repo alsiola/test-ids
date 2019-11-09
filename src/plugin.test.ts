@@ -1,42 +1,46 @@
 import { transform, types } from "@babel/core";
 import plugin, { PluginOpts } from "./plugin";
 
-const runSnapshot = (opts?: PluginOpts) => (code: TemplateStringsArray) => {
-    expect(
-        transform(code[0], {
-            plugins: ["@babel/transform-react-jsx", [plugin, opts]]
-        })!.code
-    ).toMatchSnapshot();
+const transformCode = (opts?: PluginOpts) => (code: TemplateStringsArray) => {
+    return transform(code[0], {
+        plugins: ["@babel/transform-react-jsx", [plugin, opts]]
+    })!.code;
 };
 
 describe("plugin", () => {
     it("replaces $TestId in properties", () => {
-        runSnapshot()`
+        expect(
+            transformCode()`
           const x = {
               prop: $TestId.Hello
           }
-        `;
+        `
+        ).toMatchSnapshot();
     });
 
     it("replaces $TestId in properties with custom magic object", () => {
-        runSnapshot({ magicObject: "$Alex" })`
+        expect(
+            transformCode({ magicObject: "$Alex" })`
           const x = {
               prop: $Alex.Hello
           }
-        `;
+        `
+        ).toMatchSnapshot();
     });
 
     it("replaces $TestId in jsx attributes", () => {
-        runSnapshot()`
+        expect(
+            transformCode()`
           const x = (
               <div data-testid={$TestId.One} id={$TestId.Two} />
           )
-        `;
+        `
+        ).toMatchSnapshot();
     });
 
     it("throws if naked magicObject is used", () => {
         expect(
-            () => runSnapshot()`
+            () => transformCode()`
             const x = {
                 prop: $TestId
             }
@@ -46,7 +50,7 @@ describe("plugin", () => {
 
     it("throws if naked magicObject is used as auto property", () => {
         expect(
-            () => runSnapshot()`
+            () => transformCode()`
             const x = {
                 $TestId
             }
@@ -56,11 +60,27 @@ describe("plugin", () => {
 
     it("throws if naked magicObject is in jsx attribute", () => {
         expect(
-            () => runSnapshot()`
+            () => transformCode()`
             const x = (
                 <div data-testid={$TestId} />
             )
         `
         ).toThrowErrorMatchingSnapshot();
+    });
+
+    it("writes found testIds", () => {
+        const fs = {
+            mkdirpSync: jest.fn(),
+            writeFileSync: jest.fn()
+        };
+
+        transformCode({ fs: fs as any, extractTo: "test" })`
+            const x = {
+                prop: $TestId.Hello,
+                prop2: $TestId.GoodBye
+            }
+        `;
+
+        expect(fs.writeFileSync.mock.calls).toMatchSnapshot();
     });
 });
