@@ -59,17 +59,32 @@ const plugin = function(
             }
         },
         visitor: {
-            Property(path, state) {
+            /**
+             *
+             * Prevent referring to the naked magicObject identifier, e.g.
+             * { x: $TestId }
+             */
+            Identifier(path) {
+                const { magicObject = DEFAULT_MAGIC_OBJECT } = this.opts;
+                if (
+                    path.node.name === magicObject &&
+                    !t.isMemberExpression(path.container)
+                ) {
+                    throw path.buildCodeFrameError(
+                        `Cannot refer to '${magicObject}' as a literal value. Use dot access to produce testIds e.g. '${magicObject}.myTestId'`
+                    );
+                }
+            },
+            MemberExpression(path, state) {
                 const { magicObject = DEFAULT_MAGIC_OBJECT } = this.opts;
 
                 if (
-                    t.isMemberExpression(path.node.value) &&
-                    t.isIdentifier(path.node.value.object) &&
-                    path.node.value.object.name === magicObject &&
-                    t.isIdentifier(path.node.value.property)
+                    t.isIdentifier(path.node.object) &&
+                    path.node.object.name === magicObject &&
+                    t.isIdentifier(path.node.property)
                 ) {
                     // The testid is the name of that property
-                    const testId = path.node.value.property.name;
+                    const testId = path.node.property.name;
 
                     // Get existing ids, and as long as there's no dupe, add this one
                     const ids: Set<string> = state.file.get(TEST_IDS);
@@ -79,51 +94,7 @@ const plugin = function(
                         );
                     }
                     ids.add(testId);
-
-                    const value = path.get("value");
-
-                    value.replaceWith(t.stringLiteral(testId));
-                }
-            },
-            JSXAttribute(path, state) {
-                const {
-                    jsxAttribute = DEFAULT_JSX_ATTRIBUTE,
-                    magicObject = DEFAULT_MAGIC_OBJECT
-                } = this.opts;
-
-                if (
-                    // The attribute matches the specified jsx attribute
-                    path.node.name.name === jsxAttribute &&
-                    // And has a value that is an expression container
-                    t.isJSXExpressionContainer(path.node.value) &&
-                    // And a memberExpression inside that
-                    t.isMemberExpression(path.node.value.expression) &&
-                    // Where the object is an identifier
-                    t.isIdentifier(path.node.value.expression.object) &&
-                    // With a name matching the magic object name
-                    path.node.value.expression.object.name === magicObject &&
-                    // And the property is an identifier
-                    t.isIdentifier(path.node.value.expression.property)
-                ) {
-                    // The testid is the name of that property
-                    const testId = path.node.value.expression.property.name;
-
-                    // Get existing ids, and as long as there's no dupe, add this one
-                    const ids: Set<string> = state.file.get(TEST_IDS);
-                    if (ids.has(testId)) {
-                        throw path.buildCodeFrameError(
-                            `Duplicate test id: ${testId}}`
-                        );
-                    }
-                    ids.add(testId);
-
-                    // Replace the whole attribute node with a string literal attribute value
-                    path.replaceWith(
-                        t.jsxAttribute(
-                            t.jsxIdentifier(jsxAttribute),
-                            t.jsxExpressionContainer(t.stringLiteral(testId))
-                        )
-                    );
+                    path.replaceWith(t.stringLiteral(testId));
                 }
             }
         },
