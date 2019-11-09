@@ -13,11 +13,11 @@ Define test ids with zero runtime cost, and extract them to a JSON file.
 
 ## Install
 
-Add the package using:
+Install the package using:
 
 ```
 yarn install babel-plugin-test-ids
 ```
 
-N.B. You'll need [babel](https://babeljs.io/) `>7.0.0` installed.
+You'll need [babel](https://babeljs.io/) `>7.0.0` installed.
 
