@@ -19,7 +19,7 @@ program
 
 program.parse(process.argv);
 
-function globTestIds() {
+export const globTestIds = () => {
     try {
         const allIds = glob
             .sync(path.join(process.cwd(), program.idsLocation))
@@ -59,6 +59,6 @@ function globTestIds() {
         console.error(e);
         process.exit(1);
     }
-}
+};
 
 globTestIds();
