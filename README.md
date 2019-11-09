@@ -19,5 +19,5 @@ Add the package using:
 yarn install babel-plugin-test-ids
 ```
 
-N.B. You'll need `[babel](https://babeljs.io/)>7` installed.
+N.B. You'll need [babel](https://babeljs.io/) `>7.0.0` installed.
 
