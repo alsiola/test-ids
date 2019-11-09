@@ -9,7 +9,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -35,7 +36,10 @@
     "@types/commander": "^2.12.2",
     "@types/fs-extra": "^8.0.1",
     "@types/glob": "^7.1.1",
+    "@types/jest": "^24.0.22",
     "@types/node": "^12.12.6",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
   }
 }

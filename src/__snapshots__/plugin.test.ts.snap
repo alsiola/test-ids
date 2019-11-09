@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin replaces $TestId in properties 1`] = `
+"const x = {
+  prop: \\"Hello\\"
+};"
+`;
