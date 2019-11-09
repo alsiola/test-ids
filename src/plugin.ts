@@ -4,6 +4,7 @@ import * as path from "path";
 
 const generateOutputFilename = (
     extractTo: string,
+    // In test env then opts.file isn't available
     filename: string = "test.jsx"
 ) => {
     const basename = path.basename(filename, path.extname(filename));
