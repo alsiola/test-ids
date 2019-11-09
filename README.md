@@ -9,5 +9,15 @@
 ![Pull Requests](https://img.shields.io/github/issues-pr/alsiola/test-ids?style=for-the-badge)
 [![NPM](https://img.shields.io/npm/v/babel-plugin-test-ids?style=for-the-badge)](https://www.npmjs.com/package/babel-plugin-test-ids)
 
-Extractable test ids with zero runtime cost.
+Define test ids with zero runtime cost, and extract them to a JSON file.
+
+## Install
+
+Add the package using:
+
+```
+yarn install babel-plugin-test-ids
+```
+
+N.B. You'll need `[babel](https://babeljs.io/)>7` installed.
 
