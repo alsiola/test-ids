@@ -32,22 +32,20 @@ const generateOutputFilename = (
 const TEST_IDS = Symbol("TEST_IDS");
 
 const DEFAULT_MAGIC_OBJECT = "$TestId";
-const DEFAULT_JSX_ATTRIBUTE = "data-testid";
 
-export interface PluginProps {
-    jsxAttribute?: string;
+export interface PluginOpts {
     extractTo?: string;
     magicObject?: string;
 }
 
 export const plugin = function(
-    this: { opts: PluginProps },
+    this: { opts?: PluginOpts },
     {
         types: t
     }: {
         types: typeof babel.types;
     }
-): babel.PluginObj<{ file: any; opts: PluginProps }> {
+): babel.PluginObj<{ file: any; opts: PluginOpts }> {
     return {
         /**
          * Create a Set on the file to hold collected ids. Attaching it to the file
