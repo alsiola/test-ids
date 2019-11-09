@@ -5,3 +5,9 @@ exports[`plugin replaces $TestId in properties 1`] = `
   prop: \\"Hello\\"
 };"
 `;
+
+exports[`plugin replaces $TestId in properties with custom magic object 1`] = `
+"const x = {
+  prop: \\"Hello\\"
+};"
+`;

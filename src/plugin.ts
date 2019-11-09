@@ -38,7 +38,7 @@ export interface PluginOpts {
     magicObject?: string;
 }
 
-export const plugin = function(
+export function plugin(
     this: { opts?: PluginOpts },
     {
         types: t
@@ -122,6 +122,6 @@ export const plugin = function(
             }
         }
     };
-};
+}
 
 export default plugin;
