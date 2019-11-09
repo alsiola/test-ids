@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-test-ids",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -16,7 +16,7 @@
     "url": "git+https://github.com/alsiola/jsx-test-ids.git"
   },
   "author": "Alex Young",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/alsiola/jsx-test-ids/issues"
   },
