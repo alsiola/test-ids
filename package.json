@@ -16,7 +16,7 @@
     "url": "git+https://github.com/alsiola/jsx-test-ids.git"
   },
   "author": "Alex Young",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/alsiola/jsx-test-ids/issues"
   },
