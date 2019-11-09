@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`plugin replaces $TestId in jsx attributes 1`] = `
+"const x = React.createElement(\\"div\\", {
+  \\"data-testid\\": \\"One\\",
+  id: \\"Two\\"
+});"
+`;
+
 exports[`plugin replaces $TestId in properties 1`] = `
 "const x = {
   prop: \\"Hello\\"
@@ -10,4 +17,34 @@ exports[`plugin replaces $TestId in properties with custom magic object 1`] = `
 "const x = {
   prop: \\"Hello\\"
 };"
+`;
+
+exports[`plugin throws if naked magicObject is in jsx attribute 1`] = `
+"unknown: Cannot refer to '$TestId' as a literal value. Use dot access to produce testIds e.g. '$TestId.myTestId'
+[0m [90m 1 | [39m[0m
+[0m [90m 2 | [39m            [36mconst[39m x [33m=[39m ([0m
+[0m[31m[1m>[22m[39m[90m 3 | [39m                [33m<[39m[33mdiv[39m data[33m-[39mtestid[33m=[39m{$TestId} [33m/[39m[33m>[39m[0m
+[0m [90m   | [39m                                  [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 4 | [39m            )[0m
+[0m [90m 5 | [39m        [0m"
+`;
+
+exports[`plugin throws if naked magicObject is used 1`] = `
+"unknown: Cannot refer to '$TestId' as a literal value. Use dot access to produce testIds e.g. '$TestId.myTestId'
+[0m [90m 1 | [39m[0m
+[0m [90m 2 | [39m            [36mconst[39m x [33m=[39m {[0m
+[0m[31m[1m>[22m[39m[90m 3 | [39m                prop[33m:[39m $TestId[0m
+[0m [90m   | [39m                      [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 4 | [39m            }[0m
+[0m [90m 5 | [39m        [0m"
+`;
+
+exports[`plugin throws if naked magicObject is used as auto property 1`] = `
+"unknown: Cannot refer to '$TestId' as a literal value. Use dot access to produce testIds e.g. '$TestId.myTestId'
+[0m [90m 1 | [39m[0m
+[0m [90m 2 | [39m            [36mconst[39m x [33m=[39m {[0m
+[0m[31m[1m>[22m[39m[90m 3 | [39m                $TestId[0m
+[0m [90m   | [39m                [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 4 | [39m            }[0m
+[0m [90m 5 | [39m        [0m"
 `;
