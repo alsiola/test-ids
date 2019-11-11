@@ -33,6 +33,18 @@ jobs:
           paths: 
             - .
 
+  version:
+    working_directory: ~/repo
+    docker:
+      - image: cibuilds/github:0.10
+    steps:
+      - attach_workspace:
+          at: ./repo
+      - run:
+          name: "Whats the version"
+          command:
+            echo $(scripts/get-version.sh)
+
   deploy:
     <<: *defaults
 
@@ -55,9 +67,11 @@ jobs:
       - attach_workspace:
           at: ./repo
       - run:
-          name: "Publish Release on GitHub"
+          name: "Get current version"
           command:
             VERSION=$(scripts/get-version.sh)
+          name: "Publish Release on GitHub"
+          command:
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} .
 
 workflows:
