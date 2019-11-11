@@ -48,6 +48,7 @@ jobs:
           command: yarn publish --no-version
 
   release:
+    working_directory: ~/repo
     docker:
       - image: cibuilds/github:0.10
     steps:
