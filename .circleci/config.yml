@@ -47,7 +47,7 @@ jobs:
           name: Publish
           command: yarn publish --no-version
 
-  publish-github-release:
+  release:
     docker:
       - image: cibuilds/github:0.10
     steps:
