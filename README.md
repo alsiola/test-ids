@@ -98,8 +98,8 @@ Often it is desirable to have a single "master" file of test ids. This can be ge
 
 There are two inputs, both required:
 
-`-i, --ids-location` Glob-style location of previously generated extracted test ids
-`-o, --output` Location to output master file
+* `-i, --ids-location` Glob-style location of previously generated extracted test ids
+* `-o, --output` Location to output master file
 
 package.json
 ```
