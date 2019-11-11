@@ -70,6 +70,7 @@ jobs:
           name: "Get current version"
           command:
             VERSION=$(scripts/get-version.sh)
+      - run:
           name: "Publish Release on GitHub"
           command:
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} .
