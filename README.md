@@ -83,6 +83,15 @@ Extracted (`test-ids/src/test/file.json`)
 ]
 ```
 
+#### TypeScript
+If you're using TypeScript, you'll soon find that usage as above causes build errors, because `$TestId` is
+not defined. This can be corrected by declaring a global variable, in (for example) `globals.d.ts` at the project
+root.
+
+```
+declare const $TestId: Record<string, string>;
+```
+
 ### CLI
 
 Often it is desirable to have a single "master" file of test ids. This can be generated using the provided `glob-test-ids` program.
