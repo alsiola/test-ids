@@ -89,7 +89,10 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      - test
+      - build:
+          requires:
+            - test
       - deploy:
           requires:
             - build
