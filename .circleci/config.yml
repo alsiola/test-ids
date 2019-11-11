@@ -33,18 +33,6 @@ jobs:
           paths: 
             - .
 
-  version:
-    working_directory: ~/repo
-    docker:
-      - image: cibuilds/github:0.10
-    steps:
-      - attach_workspace:
-          at: ./repo
-      - run:
-          name: "Whats the version"
-          command:
-            cd repo;ls; echo $(repo/scripts/get-version.sh)
-
   deploy:
     <<: *defaults
 
@@ -81,7 +69,6 @@ workflows:
   build-and-deploy:
     jobs:
       - build
-      - version
       - deploy:
           requires:
             - build
