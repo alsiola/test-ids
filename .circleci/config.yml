@@ -79,6 +79,7 @@ workflows:
   build-and-deploy:
     jobs:
       - build
+      - version
       - deploy:
           requires:
             - build
