@@ -43,7 +43,7 @@ jobs:
       - run:
           name: "Whats the version"
           command:
-            ls; echo $(./scripts/get-version.sh)
+            ls; echo $(./repo/scripts/get-version.sh)
 
   deploy:
     <<: *defaults
