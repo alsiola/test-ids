@@ -3,11 +3,11 @@
 [![CircleCI](https://img.shields.io/circleci/build/github/alsiola/test-ids/master?style=for-the-badge)](https://circleci.com/gh/alsiola/test-ids/tree/master)
 ![MIT Licensed](https://img.shields.io/npm/l/babel-plugin-test-ids?style=for-the-badge)
 ![Language](https://img.shields.io/github/languages/top/alsiola/test-ids?style=for-the-badge)
+[![NPM](https://img.shields.io/npm/v/babel-plugin-test-ids?style=for-the-badge)](https://www.npmjs.com/package/babel-plugin-test-ids)
 
 ![Dependencies](https://img.shields.io/requires/github/alsiola/test-ids?label=dependencies&style=for-the-badge)
 ![Issues](https://img.shields.io/github/issues/alsiola/test-ids?style=for-the-badge)
 ![Pull Requests](https://img.shields.io/github/issues-pr/alsiola/test-ids?style=for-the-badge)
-[![NPM](https://img.shields.io/npm/v/babel-plugin-test-ids?style=for-the-badge)](https://www.npmjs.com/package/babel-plugin-test-ids)
 
 Define test ids with zero runtime cost, and extract them to a JSON file.
 
@@ -83,14 +83,23 @@ Extracted (`test-ids/src/test/file.json`)
 ]
 ```
 
+#### TypeScript
+If you're using TypeScript, you'll soon find that usage as above causes build errors, because `$TestId` is
+not defined. This can be corrected by declaring a global variable, in (for example) `globals.d.ts` at the project
+root.
+
+```
+declare const $TestId: Record<string, string>;
+```
+
 ### CLI
 
 Often it is desirable to have a single "master" file of test ids. This can be generated using the provided `glob-test-ids` program.
 
 There are two inputs, both required:
 
-`-i, --ids-location` Glob-style location of previously generated extracted test ids
-`-o, --output` Location to output master file
+* `-i, --ids-location` Glob-style location of previously generated extracted test ids
+* `-o, --output` Location to output master file
 
 package.json
 ```
