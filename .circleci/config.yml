@@ -96,10 +96,13 @@ workflows:
       - build:
           requires:
             - test
-      - deploy:
+      - approve:
           type: approval
           requires:
             - build
+      - deploy:
+          requires:
+            - approve
           filters:
             branches:
               only: master
