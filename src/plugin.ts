@@ -5,8 +5,8 @@ import * as path from "path";
 const generateOutputFilename = (
     extractTo: string,
     // In test env then opts.file isn't available
-    filename: string = "test.jsx"
-) => {
+    filename = "test.jsx"
+): string => {
     const basename = path.basename(filename, path.extname(filename));
 
     // Make sure the relative path is "absolute" before
@@ -53,7 +53,7 @@ export function plugin(
          * Create a Set on the file to hold collected ids. Attaching it to the file
          * means there is no issue of shared mutable state across different files
          */
-        pre(file) {
+        pre(file): void {
             if (!file.has(TEST_IDS)) {
                 file.set(TEST_IDS, new Set());
             }
@@ -64,7 +64,7 @@ export function plugin(
              * Prevent referring to the naked magicObject identifier, e.g.
              * { x: $TestId }
              */
-            Identifier(path) {
+            Identifier(path): void {
                 const { magicObject = DEFAULT_MAGIC_OBJECT } = this.opts;
                 if (
                     path.node.name === magicObject &&
@@ -75,7 +75,7 @@ export function plugin(
                     );
                 }
             },
-            MemberExpression(path, state) {
+            MemberExpression(path, state): void {
                 const { magicObject = DEFAULT_MAGIC_OBJECT } = this.opts;
 
                 if (
@@ -103,7 +103,7 @@ export function plugin(
          * them to a json file, with a path that corresponds to the original
          * location of the file, but relative the the `testIdsDir`
          */
-        post(file) {
+        post(file): void {
             const { extractTo, fs = fsextra } = this.opts || {
                 extractTo: false
             };

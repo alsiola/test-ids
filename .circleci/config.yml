@@ -6,6 +6,29 @@ defaults: &defaults
     - image: circleci/node:lts
 
 jobs:
+  lint:
+    <<: *defaults
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: 
+          name: ESLint
+          command: yarn lint
+
   test:
     <<: *defaults
 
@@ -93,12 +116,13 @@ workflows:
   build-and-deploy:
     jobs:
       - test
-      - build:
-          requires:
-            - test
+      - lint
+      - build
       - approve:
           type: approval
           requires:
+            - test
+            - lint
             - build
       - deploy:
           requires:

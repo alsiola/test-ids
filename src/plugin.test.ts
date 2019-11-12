@@ -1,10 +1,12 @@
-import { transform, types } from "@babel/core";
+import { transform } from "@babel/core";
 import plugin, { PluginOpts } from "./plugin";
 
-const transformCode = (opts?: PluginOpts) => (code: TemplateStringsArray) => {
+const transformCode = (opts?: PluginOpts) => (
+    code: TemplateStringsArray
+): string => {
     return transform(code[0], {
         plugins: ["@babel/transform-react-jsx", [plugin, opts]]
-    })!.code;
+    })!.code!;
 };
 
 describe("plugin", () => {
