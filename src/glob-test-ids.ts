@@ -8,7 +8,7 @@ export const globTestIds = ({
 }: {
     idsLocation: string;
     output: string;
-}) => {
+}): void => {
     try {
         const allIds = glob
             .sync(path.join(process.cwd(), idsLocation))
