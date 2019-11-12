@@ -124,12 +124,12 @@ workflows:
             - test
             - lint
             - build
-      - deploy:
-          requires:
-            - approve
           filters:
             branches:
               only: master
+      - deploy:
+          requires:
+            - approve
       - release:
           requires:
             - deploy
