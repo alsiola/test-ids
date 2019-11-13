@@ -107,7 +107,7 @@ jobs:
 
       - run:
           name: Authenticate with registry
-          command: echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}\r\nregistry=https://npm.pkg.github.com/alsiola" > ~/repo/.npmrc
+          command: echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN\r\nregistry=https://npm.pkg.github.com/alsiola" > ~/repo/.npmrc
       - run: 
           name: Publish to github packages
           command: yarn publish --no-version
