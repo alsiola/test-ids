@@ -84,7 +84,7 @@ jobs:
           paths: 
             - .
 
-  deploy:
+  deploy-npm:
     <<: *defaults
 
     steps:
@@ -95,7 +95,21 @@ jobs:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
       - run: 
-          name: Publish
+          name: Publish to npm
+          command: yarn publish --no-version
+
+  deploy-gh:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Authenticate with registry
+          command: echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}\r\nregistry=https://npm.pkg.github.com/alsiola" > ~/repo/.npmrc
+      - run: 
+          name: Publish to github packages
           command: yarn publish --no-version
 
   release:
@@ -127,10 +141,14 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy:
+      - deploy-npm:
+          requires:
+            - approve
+      - deploy-gh:
           requires:
             - approve
       - release:
           requires:
-            - deploy
+            - deploy-npm
+            - deploy-gh
               
