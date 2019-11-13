@@ -98,20 +98,6 @@ jobs:
           name: Publish to npm
           command: yarn publish --no-version
 
-  deploy-gh:
-    <<: *defaults
-
-    steps:
-      - attach_workspace:
-          at: ~/repo
-
-      - run:
-          name: Authenticate with registry
-          command: echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN\r\nregistry=https://npm.pkg.github.com/alsiola" > ~/repo/.npmrc
-      - run: 
-          name: Publish to github packages
-          command: yarn publish --no-version
-
   release:
     working_directory: ~/repo
     docker:
@@ -144,11 +130,7 @@ workflows:
       - deploy-npm:
           requires:
             - approve
-      - deploy-gh:
-          requires:
-            - approve
       - release:
           requires:
             - deploy-npm
-            - deploy-gh
               
