@@ -18,6 +18,7 @@ const generateOutputFilename = (
     // Solve when the window user has symlink on the directory, because
     // process.cwd on windows returns the symlink root,
     // and filename (from babel) returns the original root
+    /* istanbul ignore if */
     if (process.platform === "win32") {
         const { name } = path.parse(process.cwd());
         if (relativePath.includes(name)) {
@@ -54,9 +55,7 @@ export function plugin(
          * means there is no issue of shared mutable state across different files
          */
         pre(file): void {
-            if (!file.has(TEST_IDS)) {
-                file.set(TEST_IDS, new Set());
-            }
+            file.set(TEST_IDS, new Set());
         },
         visitor: {
             /**
