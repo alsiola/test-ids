@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import * as fs from "fs-extra";
+import * as glob from "glob";
 import * as path from "path";
 import commander from "commander";
 import { globTestIds } from "./glob-test-ids";
@@ -19,7 +20,7 @@ program
 
 program.parse(process.argv);
 
-globTestIds({
+globTestIds({ fs, glob, path })({
     idsLocation: program.idsLocation,
     output: program.output
 });

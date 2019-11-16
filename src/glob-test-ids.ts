@@ -1,8 +1,8 @@
-import * as glob from "glob";
-import * as path from "path";
-import * as fs from "fs-extra";
+import * as _glob from "glob";
+import * as _path from "path";
+import * as _fs from "fs-extra";
 
-export const globTestIds = ({
+export const globTestIds = ({ fs = _fs, glob = _glob, path = _path }) => ({
     idsLocation,
     output
 }: {
