@@ -35,7 +35,6 @@ There are two parts to this package:
     - Combines extracted test ids into a single file
 
 ### Babel plugin
-
 #### Setup
 
 The plugin should be added to the `plugins` array in your babel configuration.
