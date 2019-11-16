@@ -70,6 +70,19 @@ describe("plugin", () => {
         ).toThrowErrorMatchingSnapshot();
     });
 
+    it("throws if duplicate ids are used", () => {
+        expect(
+            () => transformCode()`
+            const x = (
+                <>
+                    <div data-testid={$TestId.Hello} />
+                    <div data-testid={$TestId.Hello} />
+                </>
+            )
+        `
+        ).toThrowErrorMatchingSnapshot();
+    });
+
     it("writes found testIds", () => {
         const fs = {
             mkdirpSync: jest.fn(),

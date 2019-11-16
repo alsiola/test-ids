@@ -19,6 +19,17 @@ exports[`plugin replaces $TestId in properties with custom magic object 1`] = `
 };"
 `;
 
+exports[`plugin throws if duplicate ids are used 1`] = `
+"unknown: Duplicate test id: Hello}
+[0m [90m 3 | [39m                [33m<[39m[33m>[39m[0m
+[0m [90m 4 | [39m                    [33m<[39m[33mdiv[39m data[33m-[39mtestid[33m=[39m{$TestId[33m.[39m[33mHello[39m} [33m/[39m[33m>[39m[0m
+[0m[31m[1m>[22m[39m[90m 5 | [39m                    [33m<[39m[33mdiv[39m data[33m-[39mtestid[33m=[39m{$TestId[33m.[39m[33mHello[39m} [33m/[39m[33m>[39m[0m
+[0m [90m   | [39m                                      [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
+[0m [90m 6 | [39m                [33m<[39m[33m/[39m[33m>[39m[0m
+[0m [90m 7 | [39m            )[0m
+[0m [90m 8 | [39m        [0m"
+`;
+
 exports[`plugin throws if naked magicObject is in jsx attribute 1`] = `
 "unknown: Cannot refer to '$TestId' as a literal value. Use dot access to produce testIds e.g. '$TestId.myTestId'
 [0m [90m 1 | [39m[0m
