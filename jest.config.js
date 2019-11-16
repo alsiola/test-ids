@@ -14,5 +14,5 @@ module.exports = {
 
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
 
-    collectCoverageFrom: ["src/**/*.ts", "src/**/*.tsx"]
+    collectCoverageFrom: ["src/**/{!(index),}.ts"]
 };
