@@ -54,6 +54,10 @@ jobs:
           environment:
                   JEST_JUNIT_OUTPUT_DIR: "test-results/jest/results.xml"
 
+      - run:
+          name: Upload coverage report
+          command: yarn test:codecov
+
       - store_test_results:
           path: test-results
 
