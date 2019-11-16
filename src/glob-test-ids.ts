@@ -4,13 +4,15 @@ import * as _fs from "fs-extra";
 
 export const globTestIds = ({ fs = _fs, glob = _glob, path = _path }) => ({
     idsLocation,
-    output
+    output,
+    cwd
 }: {
     idsLocation: string;
     output: string;
+    cwd: string;
 }): void => {
     const allIds = glob
-        .sync(path.join(process.cwd(), idsLocation))
+        .sync(path.join(cwd, idsLocation))
         .map(filename => ({
             filename,
             file: fs.readFileSync(filename, "utf8")
@@ -33,7 +35,7 @@ export const globTestIds = ({ fs = _fs, glob = _glob, path = _path }) => ({
 
     fs.mkdirpSync(path.dirname(output));
 
-    const outFile = path.join(process.cwd(), output);
+    const outFile = path.join(cwd, output);
 
     fs.writeFileSync(outFile, JSON.stringify(allIds, null, 2));
     console.log(`${Object.keys(allIds).length} test ids written to ${outFile}`);

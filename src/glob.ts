@@ -23,7 +23,8 @@ program.parse(process.argv);
 try {
     globTestIds({ fs, glob, path })({
         idsLocation: program.idsLocation,
-        output: program.output
+        output: program.output,
+        cwd: process.cwd()
     });
     process.exit(0);
 } catch (e) {

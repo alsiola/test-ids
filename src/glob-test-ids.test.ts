@@ -28,7 +28,11 @@ describe("globTestIds", () => {
     it("reads all test ids and writes to json file", () => {
         const { fs, path, glob, fn } = setupMocks();
 
-        fn({ idsLocation: "./test", output: "./master.json" });
+        fn({
+            idsLocation: "./test",
+            output: "./master.json",
+            cwd: "/test/dir/"
+        });
 
         expect(fs.readFileSync.mock.calls).toMatchSnapshot("fs.readFileSync");
         expect(fs.mkdirpSync.mock.calls).toMatchSnapshot("fs.mkdirpSync");
