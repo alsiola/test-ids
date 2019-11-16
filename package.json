@@ -11,7 +11,8 @@
     "build": "tsc",
     "test": "jest --coverage",
     "test:codecov": "codecov",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint src/**/*.ts",
+    "cm": "git-cz"
   },
   "repository": {
     "type": "git",
@@ -43,6 +44,8 @@
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
     "codecov": "^3.6.1",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "3.0.2",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "jest": "^24.9.0",
@@ -50,5 +53,10 @@
     "prettier": "^1.19.0",
     "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
