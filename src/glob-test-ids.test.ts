@@ -1,8 +1,8 @@
 import { globTestIds } from "./glob-test-ids";
 
-const setupMocks = () => {
+const setupMocks = ({ testIds }: { testIds: any }) => {
     const fs = {
-        readFileSync: jest.fn().mockReturnValue(`["test-id"]`),
+        readFileSync: jest.fn().mockReturnValue(JSON.stringify(testIds)),
         mkdirpSync: jest.fn(),
         writeFileSync: jest.fn()
     };
@@ -26,7 +26,7 @@ const setupMocks = () => {
 
 describe("globTestIds", () => {
     it("reads all test ids and writes to json file", () => {
-        const { fs, path, glob, fn } = setupMocks();
+        const { fs, path, glob, fn } = setupMocks({ testIds: ["test-id"] });
 
         fn({
             idsLocation: "./test",
@@ -40,5 +40,19 @@ describe("globTestIds", () => {
         expect(path.join.mock.calls).toMatchSnapshot("path.join");
         expect(path.dirname.mock.calls).toMatchSnapshot("path.dirname");
         expect(glob.sync.mock.calls).toMatchSnapshot("glob.sync");
+    });
+
+    it("throws if there are duplicate test ids", () => {
+        const { fn } = setupMocks({
+            testIds: ["test-id", "test-id"]
+        });
+
+        expect(() =>
+            fn({
+                idsLocation: "./test",
+                output: "./master.json",
+                cwd: "/test/dir/"
+            })
+        ).toThrowErrorMatchingSnapshot();
     });
 });

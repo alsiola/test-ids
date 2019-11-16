@@ -56,3 +56,5 @@ Array [
   ],
 ]
 `;
+
+exports[`globTestIds throws if there are duplicate test ids 1`] = `"Duplicate test id test-id in filename"`;
