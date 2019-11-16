@@ -88,7 +88,7 @@ jobs:
           paths: 
             - .
 
-  deploy-npm:
+  release:
     <<: *defaults
 
     steps:
@@ -96,24 +96,8 @@ jobs:
           at: ~/repo
 
       - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
-      - run: 
-          name: Publish to npm
-          command: yarn publish --no-version
-
-  release:
-    working_directory: ~/repo
-    docker:
-      - image: cibuilds/github:0.10
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ./repo
-      - run:
-          name: "Publish Release on GitHub"
-          command:
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $(scripts/get-version.sh) .
+          name: Semantic release
+          command: yarn semantic-release
 
 workflows:
   version: 2
@@ -131,10 +115,7 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy-npm:
-          requires:
-            - approve
       - release:
           requires:
-            - deploy-npm
+            - approve
               
