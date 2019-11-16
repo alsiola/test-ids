@@ -65,7 +65,8 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "yarn cm:lint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "yarn cm:lint -E HUSKY_GIT_PARAMS",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
     }
   }
 }
