@@ -20,7 +20,13 @@ program
 
 program.parse(process.argv);
 
-globTestIds({ fs, glob, path })({
-    idsLocation: program.idsLocation,
-    output: program.output
-});
+try {
+    globTestIds({ fs, glob, path })({
+        idsLocation: program.idsLocation,
+        output: program.output
+    });
+    process.exit(0);
+} catch (e) {
+    console.error(e);
+    process.exit(1);
+}

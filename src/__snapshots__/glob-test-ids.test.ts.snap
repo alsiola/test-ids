@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`globTestIds reads all test ids and writes to json file: fs.mkdirpSync 1`] = `
+Array [
+  Array [
+    "dirname",
+  ],
+]
+`;
+
+exports[`globTestIds reads all test ids and writes to json file: fs.readFileSync 1`] = `
+Array [
+  Array [
+    "filename",
+    "utf8",
+  ],
+]
+`;
+
+exports[`globTestIds reads all test ids and writes to json file: fs.writeFileSync 1`] = `
+Array [
+  Array [
+    "outfile",
+    "{
+  \\"test-id\\": \\"test-id\\"
+}",
+  ],
+]
+`;
+
+exports[`globTestIds reads all test ids and writes to json file: glob.sync 1`] = `
+Array [
+  Array [
+    "outfile",
+  ],
+]
+`;
+
+exports[`globTestIds reads all test ids and writes to json file: path.dirname 1`] = `
+Array [
+  Array [
+    "./master.json",
+  ],
+]
+`;
+
+exports[`globTestIds reads all test ids and writes to json file: path.join 1`] = `
+Array [
+  Array [
+    "/Users/alexyoung/Code/test-ids",
+    "./test",
+  ],
+  Array [
+    "/Users/alexyoung/Code/test-ids",
+    "./master.json",
+  ],
+]
+`;
